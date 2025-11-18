@@ -1,0 +1,5 @@
+System.out.print("\nSzeretnél újra dobni? (i/n): ");
+            String valasz = scanner.nextLine().trim().toLowerCase();
+
+            if (valasz.equals("n")) {
+                folytat = false;
