@@ -1,0 +1,4 @@
+A játékos osztály meghívja a dobás osztályt és a játék kezdete előtt bekér egy játékos által kiválasztott tetszőleges nevet.
+Minden dobás után megkérdezi a játékost a program hogy szeretne e dobni mégegyszer i/n választási lehetőségekkel
+- ha szeretne még dobni akkor újra dobhat a játékos
+- ha nem szeretne dobni akkor kilép a program és a játékos által dobott értékeket névvel együtt kiírja.

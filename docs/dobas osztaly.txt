@@ -1,0 +1,2 @@
+A dobas osztály bekéri, hogy a felhasználó hány oldalú kockával és hány darab kockával szeretne dobni.
+Vissza adja a dobás értékét és menti azt
