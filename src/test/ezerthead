@@ -1,0 +1,20 @@
+Teszt környezet
+Java verzió: OpenJDK 23.0.2
+Teszt keretrendszer: JUnit 5 + AssertJ
+Thread pool méret: 100
+Felhasználók száma: 1000
+Dobás típusa: 1d6
+
+Teszt lépések
+Létrehozás: 1000 Jatekos objektum (User0 … User999).
+Minden játékos egyszer dob 1d6-ot.
+Az eredményt logoljuk a játékos előzményeihez.
+AssertJ ellenőrzi, hogy az érték 1 és 6 között van.
+A CountDownLatch biztosítja, hogy minden dobás lefutott, mielőtt a teszt befejeződik.
+
+Eredmények
+1000 dobás lefutott hibamentesen.
+Minden dobás értéke a szabályos tartományban volt (1–6).
+Nem volt AssertionError vagy futási hiba.
+
+Átlagos futási idő: < 5 mp (1000 thread pool mellett).
