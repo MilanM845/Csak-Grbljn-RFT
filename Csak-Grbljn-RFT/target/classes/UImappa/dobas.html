@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>DnD Kockadobó</title>
+    <style>
+        body { font-family: Arial, sans-serif;
+        max-width: 400px;
+        margin: 30px auto;
+        text-align: center; }
+        input, button { padding: 8px;
+        margin: 5px; }
+        #history { margin-top: 20px; text-align: left; }
+    </style>
+</head>
+<body>
+<h1>DnD Kockadobó</h1>
+
+<div>
+    <label>Játékos neve:</label><br>
+    <input type="text" id="playerName" placeholder="Add meg a neved">
+</div>
+
+<div>
+    <label>Dobás (pl. 1d20, 2d6+3):</label><br>
+    <input type="text" id="diceExpression" placeholder="pl. 1d20">
+    <button onclick="rollDice()">Dobás</button>
+</div>
+
+<h3 id="result">Eredmény: ---</h3>
+
+<div id="history">
+    <h3>Dobások előzményei</h3>
+    <ul id="historyList"></ul>
+</div>
+
+<script>
+    function rollDice() {
+      const expr = document.getElementById("diceExpression").value.trim();
+      const player = document.getElementById("playerName").value || "Játékos";
+
+
+      if (!expr.match(/^\d+d\d+([+-]\d+)?$/)) {
+        document.getElementById("result").innerText = "Hibás formátum! (pl. 2d6+1)";
+        return;
+      }
+
+      const parts = expr.toLowerCase().split("d");
+      const numDice = parseInt(parts[0]);
+      let modifier = 0;
+      let sides;
+
+      if (parts[1].includes("+")) {
+        const sub = parts[1].split("+");
+        sides = parseInt(sub[0]);
+        modifier = parseInt(sub[1]);
+      } else if (parts[1].includes("-")) {
+        const sub = parts[1].split("-");
+        sides = parseInt(sub[0]);
+        modifier = -parseInt(sub[1]);
+      } else {
+        sides = parseInt(parts[1]);
+      }
+
+      let total = 0;
+      for (let i = 0; i < numDice; i++) {
+        total += Math.floor(Math.random() * sides) + 1;
+      }
+      total += modifier;
+
+      document.getElementById("result").innerText = player + " dobása: " + total;
+
+      const li = document.createElement("li");
+      li.textContent = player + " → " + expr + " = " + total;
+      document.getElementById("historyList").prepend(li);
+
+      document.getElementById("diceExpression").value = "";
+    }
+</script>
+</body>
+</html>
