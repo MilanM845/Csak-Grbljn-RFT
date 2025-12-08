@@ -1,0 +1,28 @@
+package hu.dice;
+
+import org.junit.Test;
+import static org.assertj.core.api.Assertions.*;
+
+public class DiceIntegrationTest {
+
+    @Test
+    public void testRollDiceSimple () {
+        int result = Dobas.rollDice("1d6");
+        assertThat(result).isBetween(1, 6);
+    }
+
+    @Test
+    public void testRollDiceWithModifier () {
+        int result = Dobas.rollDice("2d6+3");
+        assertThat(result).isBetween(5, 15);
+    }
+
+    @Test
+    public void testPlayerLogsDiceRoll () {
+        Jatekos player = new Jatekos("Aron");
+        int result = Dobas.rollDice("1d6");
+        player.logDobas("1d6", result);
+
+        assertThat(player.getDobasElozmenyek()).contains("1d6 → " + result);
+    }
+}
