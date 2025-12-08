@@ -1,0 +1,51 @@
+package hu.dice;
+
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
+
+import java.io.*;
+
+public class DiceAppE2ETest {
+
+    @Test
+    void testFullDiceFlow() throws Exception {
+        // Szimulált bemenet: név, dobás, kilépés
+        String simulatedInput = "Aron\n1d6\nn\n";
+        InputStream originalIn = System.in;
+        PrintStream originalOut = System.out;
+
+        ByteArrayInputStream testIn = new ByteArrayInputStream(simulatedInput.getBytes());
+        ByteArrayOutputStream testOut = new ByteArrayOutputStream();
+
+        System.setIn(testIn);
+        System.setOut(new PrintStream(testOut));
+
+        // Futtatjuk a maint programot
+        Jatekos.main(new String[]{});
+
+        // Visszaállítjuk az eredeti stream-eket
+        System.setIn(originalIn);
+        System.setOut(originalOut);
+
+        String output = testOut.toString();
+
+        // Ellenőrzés
+        assertThat(output).contains("Add meg a játékos nevét");
+        assertThat(output).contains("dobása:");
+        assertThat(output).contains("Dobások előzményei - Aron:");
+        assertThat(output).contains("1d6 →");
+
+        // Ellenőrizzük, hogy a dobás értéke 1 és 6 között van
+        String[] lines = output.split("\n");
+        String dobassor = null;
+        for (String line : lines) {
+            if (line.trim().startsWith("1d6 →")) {
+                dobassor = line.trim();
+                break;
+            }
+        }
+        assertThat(dobassor).isNotNull();
+        int value = Integer.parseInt(dobassor.split("→")[1].trim());
+        assertThat(value).isBetween(1, 6);
+    }
+}
